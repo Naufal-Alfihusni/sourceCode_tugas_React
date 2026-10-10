@@ -8,7 +8,7 @@ const emptyBook = {
   description: "",
 };
 
-export default function NewBooks({ books, onAddBook }) {
+export default function NewBooks({ onAddBook }) {
   const [newBook, setNewBook] = useState(emptyBook);
 
   function handleChange(event) {
@@ -24,6 +24,7 @@ export default function NewBooks({ books, onAddBook }) {
       image: bookCover,
     });
     setNewBook(emptyBook);
+    console.log(newBook);
   }
 
   return (
