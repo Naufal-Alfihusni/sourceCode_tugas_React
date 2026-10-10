@@ -1,339 +1,136 @@
+import { useState } from "react";
 import bookCover from "../../../assets/bookCover.jpg";
-export default function ProductList() {
+
+const emptyBook = {
+  title: "",
+  author: "",
+  year: "",
+  description: "",
+};
+
+export default function ProductList({ books, onAddBook }) {
+  const [newBook, setNewBook] = useState(emptyBook);
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setNewBook((currentBook) => ({ ...currentBook, [name]: value }));
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    onAddBook({
+      ...newBook,
+      year: Number(newBook.year),
+      image: bookCover,
+    });
+    setNewBook(emptyBook);
+  }
+
   return (
     <>
       <section id="book" className="py-5 text-center container">
         <div className="row py-lg-5">
-          <div className="col-lg-6 col-md-8 mx-auto">
-            <h1 className="fw-light">Best Seller</h1>
+          <div className="col-lg-8 col-md-10 mx-auto">
+            <h1 className="fw-light">Daftar Buku</h1>
             <p className="lead text-body-secondary">
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don’t simply skip over it entirely.
-            </p>
-            <p>
-              <a href="#" className="btn btn-primary my-2 m-2">
-                Views
-              </a>
-              <a href="#" className="btn btn-secondary my-2">
-                Other Book
-              </a>
+              Jelajahi koleksi buku dan tambahkan buku baru ke dalam daftar.
             </p>
           </div>
         </div>
       </section>
-      <div className="album py-5 bg-body-tertiary">
+
+      <section className="container mb-5" aria-labelledby="add-book-heading">
+        <h2 id="add-book-heading" className="h3 mb-3">
+          Tambah Buku Baru
+        </h2>
+        <form onSubmit={handleSubmit} className="row g-3">
+          <div className="col-md-6">
+            <label htmlFor="book-title" className="form-label">
+              Judul buku
+            </label>
+            <input
+              id="book-title"
+              name="title"
+              className="form-control"
+              value={newBook.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="book-author" className="form-label">
+              Penulis
+            </label>
+            <input
+              id="book-author"
+              name="author"
+              className="form-control"
+              value={newBook.author}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-3">
+            <label htmlFor="book-year" className="form-label">
+              Tahun terbit
+            </label>
+            <input
+              id="book-year"
+              name="year"
+              type="number"
+              min="0"
+              className="form-control"
+              value={newBook.year}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-9">
+            <label htmlFor="book-description" className="form-label">
+              Deskripsi
+            </label>
+            <input
+              id="book-description"
+              name="description"
+              className="form-control"
+              value={newBook.description}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-12">
+            <button type="submit" className="btn btn-primary">
+              Tambah Buku
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section className="album py-5 bg-body-tertiary" aria-label="Koleksi buku">
         <div className="container">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
+            {books.map((book) => (
+              <div className="col" key={book.id}>
+                <article className="card h-100 shadow-sm">
+                  <img
+                    src={book.image || bookCover}
+                    alt={`Sampul ${book.title}`}
+                    className="card-img-top"
+                    style={{ height: 225, objectFit: "cover" }}
+                  />
+                  <div className="card-body d-flex flex-column">
+                    <h2 className="h5 card-title">{book.title}</h2>
+                    <p className="text-body-secondary mb-2">
+                      {book.author} &middot; {book.year}
+                    </p>
+                    <p className="card-text">{book.description}</p>
                   </div>
-                </div>
+                </article>
               </div>
-            </div>
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card shadow-sm">
-                <img
-                  src={bookCover}
-                  alt="Sampul buku"
-                  className="card-img-top"
-                  style={{ height: 225, objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <p className="card-text">
-                    This is a wider card with supporting text below as a natural
-                    lead-in to additional content. This content is a little bit
-                    longer.
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                    <small className="text-body-secondary">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }
