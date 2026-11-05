@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createAuthor } from "../../../_services/authors";
+import { createAuthors } from "../../../_services/authors";
 
 export default function AuthorCreate() {
   const [formData, setFormData] = useState({
@@ -35,11 +35,11 @@ export default function AuthorCreate() {
         payload.append(key, formData[key]);
       }
 
-      await createAuthor(payload);
+      await createAuthors(payload);
       navigate("/admin/authors");
     } catch (error) {
       console.log(error);
-      alert("Error creating book");
+      alert("Error creating author");
     }
   };
 
