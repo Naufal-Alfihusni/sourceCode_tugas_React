@@ -35,7 +35,7 @@ export default function ShowBook() {
               </h1>
               <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
                 <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                  Rp{book.price}
+                  Rp {book.price}
                 </p>
 
                 <div className="flex items-center gap-2 mt-2 sm:mt-0">
